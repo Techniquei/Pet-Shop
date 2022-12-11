@@ -9,10 +9,8 @@ export function Header() {
   const logout = () => {
     if (localStorage.getItem('token') !== null && localStorage.getItem('token') !== undefined) {
       localStorage.removeItem('token')
-      console.log('logout')
       navigate('/')
     } else {
-      console.log('logout')
       navigate('/')
     }
   }

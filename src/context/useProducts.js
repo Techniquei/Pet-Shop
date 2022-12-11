@@ -13,7 +13,6 @@ export function useProducts() {
     })
     const json = await responce.json()
     setProducts(await json.products)
-    console.log(products)
   }
 
   const getAllProducts = () => products

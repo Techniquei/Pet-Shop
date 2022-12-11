@@ -14,7 +14,6 @@ export function Registration() {
           password: '',
         }}
         onSubmit={(values) => {
-          console.log(values)
           fetch('https://api.react-learning.ru/signup', {
             method: 'POST',
             headers: {
@@ -22,7 +21,6 @@ export function Registration() {
             },
             body: JSON.stringify(values),
           }).then((responce) => responce.json()).then((json) => {
-            console.log(json)
             if (json.error || json.err) {
               throw new Error(json.message)
             } else {

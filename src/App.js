@@ -6,7 +6,7 @@ import { Footer } from './components/Footer/Footer'
 
 function App() {
   return (
-    <div className="d-flex flex-column justify-content-between vh-100">
+    <div className="d-flex flex-column justify-content-between vh-100 bg-light">
       <ProductsContextProvider>
         <div>
           <Header />

@@ -8,7 +8,6 @@ export function Authorization() {
   useEffect(() => {
     if (localStorage.getItem('token') !== null && localStorage.getItem('token') !== undefined) {
       navigate('/catalog')
-      console.log('токен имеется')
     }
   })
 
@@ -21,7 +20,6 @@ export function Authorization() {
           password: '',
         }}
         onSubmit={(values) => {
-          console.log(values)
           fetch('https://api.react-learning.ru/signin', {
             method: 'POST',
             headers: {
@@ -29,7 +27,6 @@ export function Authorization() {
             },
             body: JSON.stringify(values),
           }).then((responce) => responce.json()).then((json) => {
-            console.log(json)
             if (json.error || json.err) {
               throw new Error(json.message)
             } else {
