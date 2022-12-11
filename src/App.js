@@ -14,7 +14,10 @@ function App() {
         </div>
 
       </ProductsContextProvider>
-      <Footer />
+      <div className="flex-shrink-0">
+        <Footer />
+      </div>
+
     </div>
   )
 }
