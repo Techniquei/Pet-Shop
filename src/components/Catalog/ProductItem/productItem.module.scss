@@ -11,6 +11,18 @@
     padding: 10px;
 }
 
-img{
-    width: 70%;
+.box {
+    overflow:hidden;
+    width:155px;
+    height:155px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
+
+img {
+    object-fit:contain;
+    height: 180px;
+    width: 100%;
+ }

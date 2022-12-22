@@ -5,7 +5,10 @@ export function ProductItem({
 }) {
   return (
     <div className={styles.card}>
-      <img src={pictures} alt="" />
+      <div className="box">
+        <img src={pictures} alt="" />
+      </div>
+
       <b>{name}</b>
       <div>
         {price}
