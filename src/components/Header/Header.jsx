@@ -41,10 +41,6 @@ export function Header() {
         </div>
 
       </button>
-      {/* <div className={style.logo_and_name}>
-        <img className={style.logo} src={logo} alt="alt" />
-        <h1>DogFood</h1>
-      </div> */}
 
       <div className="input-group w-25">
         <input className="form-control border-end-0 border" type="search" value="search" id="example-search-input" />
