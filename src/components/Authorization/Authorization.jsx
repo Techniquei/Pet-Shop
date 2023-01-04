@@ -36,8 +36,7 @@ export function Authorization() {
   }
 
   return (
-    <div className="d-flex flex-column align-items-center mt-4 gap-5">
-      <div>Страница авторизации</div>
+    <div className="d-flex flex-column align-items-center mt-4 gap-3">
       <Formik
         initialValues={{
           email: '',
@@ -50,13 +49,14 @@ export function Authorization() {
       >
 
         <Form className="d-flex flex-column w-50 gap-3">
-          <Field name="email" type="text" placeholder="email" />
-          <Field name="password" type="password" placeholder="password" />
+          <Field name="email" type="text" placeholder="email" className="rounded-3 p-1" />
+          <Field name="password" type="password" placeholder="password" className="rounded-3 p-1" />
           <button type="submit" className="btn btn-success">Войти</button>
+          <button onClick={() => { navigate('signup') }} type="button" className="btn btn-primary">Регистрация</button>
         </Form>
 
       </Formik>
-      <button onClick={() => { navigate('signup') }} type="button" className="btn btn-primary">Регистрация</button>
+
     </div>
 
   )

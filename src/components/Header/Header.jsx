@@ -1,23 +1,30 @@
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import style from './header.module.scss'
 import logo from './assets/site_logo.png'
 import likeIcon from './assets/like.jpg'
+import cartIcon from './assets/cart.png'
 import logoutIcon from './assets/logout.png'
 import profileIcon from './assets/profile.png'
 import { getToken } from '../Catalog/Catalog'
+import { Search } from './Search/Search'
+import { setSearchAC } from '../../redux/actionCreators/searchAC'
 
 export function Header() {
+  const dispatch = useDispatch()
+  const cart = useSelector((store) => store.cart)
   const navigate = useNavigate()
   const itemToken = getToken()
+  const isSignIn = (itemToken !== null && itemToken !== undefined)
   const logout = () => {
-    if (itemToken !== null && itemToken !== undefined) {
+    if (isSignIn) {
       localStorage.removeItem('token')
     }
     navigate('/')
   }
 
   const goToProfile = () => {
-    if (itemToken !== null && itemToken !== undefined) {
+    if (isSignIn) {
       navigate('/my_profile')
     } else {
       navigate('/')
@@ -25,8 +32,17 @@ export function Header() {
   }
 
   const goToCatalog = () => {
-    if (itemToken !== null && itemToken !== undefined) {
+    if (isSignIn) {
+      dispatch(setSearchAC(''))
       navigate('/catalog')
+    } else {
+      navigate('/')
+    }
+  }
+
+  const goToCart = () => {
+    if (isSignIn) {
+      navigate('/cart')
     } else {
       navigate('/')
     }
@@ -37,21 +53,19 @@ export function Header() {
       <button type="button" onClick={goToCatalog}>
         <div className={style.logo_and_name}>
           <img className={style.logo} src={logo} alt="alt" />
-          <h1>DogFood</h1>
+          <h1 className={style.name}>DogFood</h1>
         </div>
 
       </button>
 
-      <div className="input-group w-25">
-        <input className="form-control border-end-0 border" type="search" value="search" id="example-search-input" />
-        <span className="input-group-append">
-          <button className="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">
-            <i className="fa fa-search" />
-          </button>
-        </span>
-      </div>
+      <Search />
 
       <img className={style.icons} src={likeIcon} alt="" />
+
+      <button type="button" onClick={goToCart} className="position-relative">
+        <img className={style.icons} src={cartIcon} alt="alt" />
+        <div className={style.cart_counter}><b className={style.cart_counter_text}>{cart.length}</b></div>
+      </button>
 
       <button type="button" onClick={goToProfile}>
         {' '}

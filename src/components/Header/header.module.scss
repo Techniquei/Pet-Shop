@@ -3,7 +3,7 @@ header{
     background-color: rgb(223, 207, 68);
     justify-content: center;
     align-items: center;
-    gap:25px
+    gap:25px;
 }
 
 .icons{
@@ -15,10 +15,16 @@ header{
 
 .logo{
     height: 100px;
+    min-width: 132px;
     object-fit:contain
 }
 
+.name{
+    width: 100%;
+}
+
 .logo_and_name{
+    width: 100%;
     display: flex;
     align-items: center;
     h1{
@@ -31,3 +37,24 @@ button{
     background-color: transparent ;
     border: 0;
 }
+
+
+.cart_counter{
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgb(229, 255, 0);
+}
+
+.cart_counter_text{
+}
+
+@media screen and (max-width: 900px) {
+    .name{
+        display: none;
+    }
+  }

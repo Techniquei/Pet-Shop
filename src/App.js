@@ -5,14 +5,14 @@ import { Footer } from './components/Footer/Footer'
 
 function App() {
   return (
-    <div className="d-flex flex-column justify-content-between vh-100 bg-light">
+    <div className="app_wrapper">
 
-      <div>
+      <div className="app_header_and_main">
         <Header />
         <Outlet />
       </div>
 
-      <div className="flex-shrink-0">
+      <div className="">
         <Footer />
       </div>
 

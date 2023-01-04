@@ -6,11 +6,15 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { Provider } from 'react-redux'
 import App from './App'
 import { Authorization } from './components/Authorization/Authorization'
 import { Registration } from './components/Registration/Registration'
 import { Catalog } from './components/Catalog/Catalog'
 import { Profile } from './components/Profile/Profile'
+import { Cart } from './components/Cart/Cart'
+import { store } from './redux/store'
+import { Liked } from './components/ModalLiked/Liked'
 
 const queryClient = new QueryClient()
 
@@ -35,6 +39,10 @@ const router = createBrowserRouter([
         path: 'my_profile',
         element: <Profile />,
       },
+      {
+        path: 'cart',
+        element: <Cart />,
+      },
     ],
   },
 ])
@@ -42,9 +50,11 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </Provider>
 
   </React.StrictMode>,
 )

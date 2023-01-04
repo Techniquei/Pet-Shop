@@ -20,6 +20,7 @@ module.exports = {
     semi: ['error', 'never'],
     'no-console': 0,
     'no-underscore-dangle': 0,
+    'default-param-last': 0,
     'react/jsx-uses-react': 0,
     'react/react-in-jsx-scope': 0,
     'react/jsx-props-no-spreading': 0,
