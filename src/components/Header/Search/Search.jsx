@@ -1,14 +1,20 @@
-import { useState } from 'react'
+import { debounce } from 'lodash'
+import { useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setSearchAC } from '../../../redux/actionCreators/searchAC'
 
 export function Search() {
   const dispatch = useDispatch()
   const [searchLine, setSearchLine] = useState('')
+
+  const useDebounce = useMemo(() => debounce((value) => {
+    console.log(value)
+    dispatch(setSearchAC(value))
+  }, 500), [])
+
   const handleSearchChange = (event) => {
     setSearchLine(event.target.value)
-    dispatch(setSearchAC(event.target.value))
-    console.log(event.target.value, searchLine)
+    useDebounce(event.target.value)
   }
 
   return (

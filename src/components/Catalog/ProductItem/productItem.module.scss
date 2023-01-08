@@ -1,5 +1,5 @@
 .card{
-    width: 30%;
+    width: 307px;
     min-width: 300px;
     background-color: white;
     margin: 10px;
@@ -11,22 +11,24 @@
     border-radius: 20px;
     padding: 15px;
     position: relative;
+    cursor: pointer;
 }
 
 .box {
     overflow:hidden;
-    width:155px;
-    height:155px;
+    height:180px;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:center;
+    padding: 15px 45px ;
     
 }
 
-img {
+.img {
     object-fit:contain;
-    height: 180px;
     width: 100%;
+    
  }
 
  .like_button{
@@ -35,6 +37,10 @@ img {
     width: 30px;
     right: 25px;
     top: 15px;
+    transition: all 5s linear;
+    :hover{
+        transform: translate(-2px, 2px);
+    }
  }
 
  .like_img{

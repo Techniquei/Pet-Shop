@@ -1,0 +1,38 @@
+.modal {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transform: scale(0);
+    z-index: 3;
+    overflow: scroll;
+}
+
+.active {
+    transform: scale(1);
+}
+
+.modal__content{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: white;
+    width: 600px;
+}                                                            
+
+.like{
+    font-size: 30px;
+    color: red;
+}
+
+.comment{
+    font-size: 30px;
+    color: rgb(62, 142, 207);
+}

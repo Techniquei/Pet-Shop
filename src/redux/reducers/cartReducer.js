@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { initialState } from '../initialState'
 import {
-  ADD_TO_CART, DECREMENT_IN_CART, INCREMENT_IN_CART, REMOVE_FROM_CART,
+  ADD_TO_CART, DECREMENT_IN_CART, INCREMENT_IN_CART, REMOVE_FROM_CART, SELECT_IN_CART,
 } from '../types'
 
 export const cartReducer = (state = initialState.cart, action) => {
@@ -21,6 +21,13 @@ export const cartReducer = (state = initialState.cart, action) => {
       return state.map((e) => {
         if (e.id === action.payload && e.count > 1) {
           return { ...e, count: e.count - 1 }
+        }
+        return e
+      })
+    case SELECT_IN_CART:
+      return state.map((e) => {
+        if (e.id === action.payload) {
+          return { ...e, checked: !e.checked }
         }
         return e
       })

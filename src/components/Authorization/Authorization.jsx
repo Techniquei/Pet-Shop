@@ -1,9 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { Formik, Form, Field } from 'formik'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { setTokenAC } from '../../redux/actionCreators/tokenAC'
 
 export function Authorization() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   async function signInSubmitMutate(values) {
     const res = await fetch('https://api.react-learning.ru/signin', {
@@ -25,6 +28,7 @@ export function Authorization() {
         keys = Object.keys(data)
         if (keys.includes('token')) {
           localStorage.setItem('token', data.token)
+          dispatch(setTokenAC(data.token))
           navigate('/catalog')
         }
       }

@@ -49,35 +49,40 @@ export function Header() {
   }
 
   return (
-    <header className={style}>
-      <button type="button" onClick={goToCatalog}>
-        <div className={style.logo_and_name}>
-          <img className={style.logo} src={logo} alt="alt" />
-          <h1 className={style.name}>DogFood</h1>
-        </div>
+    <header className={style.header}>
+      <div className={style.header__content}>
 
-      </button>
+        <button type="button" onClick={goToCatalog}>
+          <div className={style.logo_and_name}>
+            <img className={style.logo} src={logo} alt="alt" />
+            <h1 className={style.name}>DogFood</h1>
+          </div>
 
-      <Search />
+        </button>
 
-      <img className={style.icons} src={likeIcon} alt="" />
+        <Search />
 
-      <button type="button" onClick={goToCart} className="position-relative">
-        <img className={style.icons} src={cartIcon} alt="alt" />
-        <div className={style.cart_counter}><b className={style.cart_counter_text}>{cart.length}</b></div>
-      </button>
+        <img className={style.icons} src={likeIcon} alt="" />
 
-      <button type="button" onClick={goToProfile}>
-        {' '}
-        <img className={style.icons} src={profileIcon} alt="alt" />
-        {' '}
-      </button>
+        <button type="button" onClick={goToCart} className="position-relative">
+          <img className={style.icons} src={cartIcon} alt="alt" />
+          <div className={style.cart_counter}><b className={style.cart_counter_text}>{cart.length}</b></div>
+        </button>
 
-      <button type="button" onClick={logout}>
-        {' '}
-        <img className={style.icons} src={logoutIcon} alt="alt" />
-        {' '}
-      </button>
+        <button type="button" onClick={goToProfile}>
+          {' '}
+          <img className={style.icons} src={profileIcon} alt="alt" />
+          {' '}
+        </button>
+
+        <button type="button" onClick={logout}>
+          {' '}
+          <img className={style.icons} src={logoutIcon} alt="alt" />
+          {' '}
+        </button>
+
+      </div>
+
     </header>
   )
 }

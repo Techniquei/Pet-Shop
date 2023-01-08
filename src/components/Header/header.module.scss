@@ -1,9 +1,18 @@
-header{
+.header{
     display: flex;
     background-color: rgb(223, 207, 68);
     justify-content: center;
     align-items: center;
     gap:25px;
+}
+
+.header__content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:25px;
+    width: 100%;
+    max-width: 1600px;
 }
 
 .icons{
