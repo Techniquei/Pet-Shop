@@ -124,6 +124,8 @@ export function Cart() {
               р.
             </b>
           </div>
+          <div className="d-grid w-100"><button type="button" className="btn btn-success btn-lg">Оформить</button></div>
+
         </div>
       </div>
     </div>
