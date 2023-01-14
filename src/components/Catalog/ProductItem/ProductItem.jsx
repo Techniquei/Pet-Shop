@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useDispatch } from 'react-redux'
+import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import liked from './liked.png'
 import unliked from './unliked.png'
-import { addToCartAC } from '../../../redux/actionCreators/cartAC'
 import styles from './productItem.module.scss'
-import { likeAC } from '../../../redux/actionCreators/likesAC'
+import { addToCart } from '../../../redux/slices/cartSlice'
+import { setLike } from '../../../redux/slices/likesSlice'
 
 export function ProductItem({
   inCart, like, openModal, product,
@@ -13,11 +14,11 @@ export function ProductItem({
   const dispatch = useDispatch()
   const addHandler = (e) => {
     e.stopPropagation()
-    dispatch(addToCartAC(product.id))
+    dispatch(addToCart(product.id))
   }
   const likeHandler = (e) => {
     e.stopPropagation()
-    dispatch(likeAC(product.id))
+    dispatch(setLike(product.id))
     console.log(product.id)
   }
 
@@ -25,6 +26,7 @@ export function ProductItem({
     <div
       className={styles.card}
       onClick={() => {
+        disablePageScroll()
         openModal(product.id)
       }}
     >

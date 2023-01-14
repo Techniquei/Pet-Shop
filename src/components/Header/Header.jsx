@@ -8,17 +8,17 @@ import logoutIcon from './assets/logout.png'
 import profileIcon from './assets/profile.png'
 import { getToken } from '../Catalog/Catalog'
 import { Search } from './Search/Search'
-import { setSearchAC } from '../../redux/actionCreators/searchAC'
+import { setSearch } from '../../redux/slices/searchSlice'
 
 export function Header() {
   const dispatch = useDispatch()
-  const cart = useSelector((store) => store.cart)
+  const cart = useSelector((store) => store.cart.value)
   const navigate = useNavigate()
   const itemToken = getToken()
   const isSignIn = (itemToken !== null && itemToken !== undefined)
   const logout = () => {
     if (isSignIn) {
-      localStorage.removeItem('token')
+      localStorage.removeItem('store')
     }
     navigate('/')
   }
@@ -33,7 +33,7 @@ export function Header() {
 
   const goToCatalog = () => {
     if (isSignIn) {
-      dispatch(setSearchAC(''))
+      dispatch(setSearch(''))
       navigate('/catalog')
     } else {
       navigate('/')

@@ -16,7 +16,7 @@ function getProductsByIds(products) {
 }
 
 export function Cart() {
-  const cart = useSelector((store) => store.cart)
+  const cart = useSelector((store) => store.cart.value)
   const navigate = useNavigate()
 
   const { data, isLoading, refetch } = useQuery({

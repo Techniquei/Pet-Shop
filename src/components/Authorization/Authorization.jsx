@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Formik, Form, Field } from 'formik'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setTokenAC } from '../../redux/actionCreators/tokenAC'
+import { setToken } from '../../redux/slices/tokenSlice'
 
 export function Authorization() {
   const navigate = useNavigate()
@@ -27,8 +27,8 @@ export function Authorization() {
       if (data) {
         keys = Object.keys(data)
         if (keys.includes('token')) {
-          localStorage.setItem('token', data.token)
-          dispatch(setTokenAC(data.token))
+          console.log(data.token)
+          dispatch(setToken(data.token))
           navigate('/catalog')
         }
       }

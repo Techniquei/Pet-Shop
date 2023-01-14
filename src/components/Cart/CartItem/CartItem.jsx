@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {
-  decrementInCart, incrementInCart, removeFromCartAC, selectInCart,
-} from '../../../redux/actionCreators/cartAC'
+  decrementInCart, incrementInCart, removeFromCart, selectInCart,
+} from '../../../redux/slices/cartSlice'
 
 export function CartItem({
   name, price, id, picture, count, discount, stock, checked,
 }) {
   const dispatch = useDispatch()
   const deleteHandler = () => {
-    dispatch(removeFromCartAC(id))
+    dispatch(removeFromCart(id))
   }
   const incrementInCartHandler = () => {
     dispatch(incrementInCart(id))

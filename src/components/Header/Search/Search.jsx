@@ -1,7 +1,7 @@
 import { debounce } from 'lodash'
 import { useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setSearchAC } from '../../../redux/actionCreators/searchAC'
+import { setSearch } from '../../../redux/slices/searchSlice'
 
 export function Search() {
   const dispatch = useDispatch()
@@ -9,7 +9,7 @@ export function Search() {
 
   const useDebounce = useMemo(() => debounce((value) => {
     console.log(value)
-    dispatch(setSearchAC(value))
+    dispatch(setSearch(value))
   }, 500), [])
 
   const handleSearchChange = (event) => {

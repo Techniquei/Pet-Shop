@@ -2,17 +2,26 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { enablePageScroll } from 'scroll-lock'
 import style from './modalProduct.module.scss'
-import like from './like.svg'
-import comment from './comment.svg'
 import { Comments } from './Comments/Comments'
+import { addToCart, removeFromCart } from '../../../redux/slices/cartSlice'
 
 export function ModalProduct({
   active, setActive, product,
 }) {
+  if (product === null) {
+    return <> </>
+  }
+  const dispatch = useDispatch()
   const [showedComments, setShowedComments] = useState(false)
   console.log(product)
+  const cart = useSelector((store) => store.cart.value)
+  const id = product._id
+  const idsFromCArt = cart.map((e) => e.id)
+  const inCart = idsFromCArt.includes(id)
+  console.log(idsFromCArt, id)
   const activeModalClass = `${style.modal} ${style.active}`
 
   const commentsHandler = () => {
@@ -22,6 +31,14 @@ export function ModalProduct({
   const closeHandler = () => {
     setActive({ active: false, id: 0 })
     setShowedComments(false)
+    enablePageScroll()
+  }
+  const addHandler = () => {
+    if (!inCart) {
+      dispatch(addToCart(id))
+    } else {
+      dispatch(removeFromCart(id))
+    }
   }
 
   return (
@@ -37,20 +54,20 @@ export function ModalProduct({
               {product.discount === 0 ? (
                 <b>
                   {product.price}
-                  $
+                  р.
                 </b>
               ) : (
                 <>
                   <div className="text-decoration-line-through">
                     {product.price}
                     {' '}
-                    $
+                    р.
                   </div>
                   {' '}
                   <b>
                     {product.price - product.discount}
                     {' '}
-                    $
+                    р.
                   </b>
                 </>
               )}
@@ -66,6 +83,13 @@ export function ModalProduct({
               <button type="button" className={style.like}>
                 <i className="fa-solid fa-thumbs-up me-2" />
                 {product.likes.length}
+              </button>
+              <button
+                type="button"
+                onClick={addHandler}
+                className={`btn m-1 w-50 ${inCart ? 'btn-danger' : 'btn-success'}`}
+              >
+                {!inCart ? 'Добавить' : 'Убрать из корзины'}
               </button>
               <button type="button" onClick={commentsHandler} className={style.comment}>
                 <i className="fa-solid fa-comment me-2" />

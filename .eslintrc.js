@@ -33,5 +33,6 @@ module.exports = {
     'linebreak-style': 0,
     'no-unused-vars': 0,
     'max-len': 0,
+    'no-param-reassign': 0,
   },
 }

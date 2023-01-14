@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import scrollLock from 'scroll-lock'
 import style from './catalog.module.scss'
 import { ProductItem } from './ProductItem/ProductItem'
 import { Loader } from '../Loader/Loader'
@@ -10,30 +9,31 @@ import { ModalProduct } from './ModalProduct/ModalProduct'
 
 export const PRODUCTS_QUERY_KEY = 'PRODUCTS_QUERY_KEY'
 
-export const getToken = () => localStorage.getItem('token')
-
+// export const getToken = () => useSelector((store) => store.token.value)
+export const getToken = () => (localStorage.getItem('store') !== null ? JSON.parse(localStorage.getItem('store')).token.value : null)
 export function Catalog() {
+  const navigate = useNavigate()
+  const token = getToken()
+  console.log(token)
   const [modalState, setModalState] = useState({ active: false, id: 0 })
   const openModal = (id) => {
     setModalState({ active: true, id })
     console.log(modalState.id)
   }
-  const search = useSelector((store) => store.searchLine)
-  console.log(`search${search}`)
+  const search = useSelector((store) => store.searchLine.value)
+  // console.log(`search${search}`)
   const getAllProducts = () => fetch(`https://api.react-learning.ru/products/search?query=${search}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`,
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json())
 
-  const token = getToken()
-
-  const cart = useSelector((store) => store.cart)
-  const likedList = useSelector((store) => store.liked)
+  const cart = useSelector((store) => store.cart.value)
+  console.log(cart)
+  const likedList = useSelector((store) => store.liked.value)
   const idsFromCArt = cart.map((e) => e.id)
-  const navigate = useNavigate()
   if (token == null) {
     navigate('/')
   }
@@ -50,11 +50,24 @@ export function Catalog() {
 
   if (isLoading) return <Loader />
 
-  if (modalState.active) {
-    scrollLock.disablePageScroll()
-  } else {
-    scrollLock.enablePageScroll()
+  console.log(data)
+  if (data) {
+    if (data.length === 0) {
+      return (
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <h1 className="mt-3">Товаров не найдено</h1>
+        </div>
+      )
+    }
   }
+
+  // if (data.length === 0) {
+  //   return (
+  //     <div className="d-flex flex-column justify-content-center align-items-center">
+  //       <h1 className="mt-3">Товаров не найдено</h1>
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className="d-flex justify-content-center align-items-center">
