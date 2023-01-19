@@ -48,6 +48,14 @@ export function Header() {
     }
   }
 
+  const goToLiked = () => {
+    if (isSignIn) {
+      navigate('/liked')
+    } else {
+      navigate('/')
+    }
+  }
+
   return (
     <header className={style.header}>
       <div className={style.header__content}>
@@ -61,8 +69,9 @@ export function Header() {
         </button>
 
         <Search />
-
-        <img className={style.icons} src={likeIcon} alt="" />
+        <button type="button" onClick={goToLiked}>
+          <img className={style.icons} src={likeIcon} alt="" />
+        </button>
 
         <button type="button" onClick={goToCart} className="position-relative">
           <img className={style.icons} src={cartIcon} alt="alt" />

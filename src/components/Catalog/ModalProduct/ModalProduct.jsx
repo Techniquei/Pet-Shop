@@ -4,6 +4,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { enablePageScroll } from 'scroll-lock'
+import { useMutation } from '@tanstack/react-query'
 import style from './modalProduct.module.scss'
 import { Comments } from './Comments/Comments'
 import { addToCart, removeFromCart } from '../../../redux/slices/cartSlice'

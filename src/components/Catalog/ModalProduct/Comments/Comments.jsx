@@ -65,13 +65,13 @@ export function Comments({ productId }) {
     return <Loader />
   }
 
-  if (data.length === 0) {
-    return (
-      <div className="d-flex justify-content-center fs-4">
-        Отзывов нет
-      </div>
-    )
-  }
+  // if (data.length === 0) {
+  //   return (
+  //     <div className="d-flex justify-content-center fs-4">
+  //       Отзывов нет
+  //     </div>
+  //   )
+  // }
 
   return (
     <>
@@ -100,9 +100,13 @@ export function Comments({ productId }) {
 
           : null}
       </div>
-
-      <ul className="list-group w-100">
-        {
+      {data.length === 0 ? (
+        <div className="d-flex justify-content-center fs-4">
+          Отзывов нет
+        </div>
+      ) : (
+        <ul className="list-group w-100">
+          {
             data.map((review) => (
               <li className="list-group-item">
                 <div className="d-flex gap-3 w-100">
@@ -126,7 +130,9 @@ export function Comments({ productId }) {
               </li>
             ))
         }
-      </ul>
+        </ul>
+      )}
+
     </>
 
   )
