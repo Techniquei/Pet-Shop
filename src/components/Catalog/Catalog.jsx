@@ -6,19 +6,17 @@ import style from './catalog.module.scss'
 import { ProductItem } from './ProductItem/ProductItem'
 import { Loader } from '../Loader/Loader'
 import { ModalProduct } from './ModalProduct/ModalProduct'
+import { getToken } from '../getToken'
 
 export const PRODUCTS_QUERY_KEY = 'PRODUCTS_QUERY_KEY'
 
 // export const getToken = () => useSelector((store) => store.token.value)
-export const getToken = () => (localStorage.getItem('store') !== null ? JSON.parse(localStorage.getItem('store')).token.value : null)
 export function Catalog() {
   const navigate = useNavigate()
   const token = getToken()
-  console.log(token)
   const [modalState, setModalState] = useState({ active: false, id: 0 })
   const openModal = (id) => {
     setModalState({ active: true, id })
-    console.log(modalState.id)
   }
   const search = useSelector((store) => store.searchLine.value)
   // console.log(`search${search}`)
@@ -31,7 +29,6 @@ export function Catalog() {
   }).then((res) => res.json())
 
   const cart = useSelector((store) => store.cart.value)
-  console.log(cart)
   const likedList = useSelector((store) => store.liked.value)
   const idsFromCArt = cart.map((e) => e.id)
   if (token == null) {
@@ -50,7 +47,6 @@ export function Catalog() {
 
   if (isLoading) return <Loader />
 
-  console.log(data)
   if (data) {
     if (data.length === 0) {
       return (

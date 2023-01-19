@@ -97,7 +97,7 @@ export function ModalProduct({
               </button>
 
             </div>
-            {showedComments ? <Comments comments={product.reviews} /> : ''}
+            {showedComments ? <Comments productId={id} /> : ''}
           </div>
         ) : 0}
       </div>

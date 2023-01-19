@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
-import { getToken } from '../Catalog/Catalog'
+import { getToken } from '../getToken'
 import { Loader } from '../Loader/Loader'
 import style from './profile.module.scss'
 

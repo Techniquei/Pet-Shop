@@ -6,9 +6,9 @@ import likeIcon from './assets/like.jpg'
 import cartIcon from './assets/cart.png'
 import logoutIcon from './assets/logout.png'
 import profileIcon from './assets/profile.png'
-import { getToken } from '../Catalog/Catalog'
 import { Search } from './Search/Search'
 import { setSearch } from '../../redux/slices/searchSlice'
+import { getToken } from '../getToken'
 
 export function Header() {
   const dispatch = useDispatch()
