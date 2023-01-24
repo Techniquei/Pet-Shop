@@ -19,7 +19,9 @@
     "redux-devtools-extension": "^2.13.9",
     "sass": "^1.56.2",
     "scroll-lock": "^2.1.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11",
+    "yup-locale-ru": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

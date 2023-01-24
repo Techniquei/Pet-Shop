@@ -35,7 +35,7 @@ export function Catalog() {
     navigate('/')
   }
   const { data, isLoading } = useQuery({
-    queryKey: search,
+    queryKey: [search, 'products'],
     queryFn: getAllProducts,
   })
 
@@ -91,6 +91,9 @@ export function Catalog() {
         setActive={setModalState}
         product={modalProduct || null}
       />
+      <button type="button" className={style.add_product} onClick={() => navigate('/newProduct')}>
+        <i className="fa-solid fa-circle-plus" />
+      </button>
     </div>
   )
 }

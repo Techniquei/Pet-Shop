@@ -36,3 +36,20 @@
     font-size: 30px;
     color: rgb(62, 142, 207);
 }
+
+.like_button{
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    right: 25px;
+    top: 15px;
+    transition: all 5s linear;
+    :hover{
+        transform: translate(-2px, 2px);
+    }
+ }
+
+ .like_img{
+    height: 40px;
+    width: 40px;
+ }

@@ -8,6 +8,9 @@ import { useMutation } from '@tanstack/react-query'
 import style from './modalProduct.module.scss'
 import { Comments } from './Comments/Comments'
 import { addToCart, removeFromCart } from '../../../redux/slices/cartSlice'
+import liked from './liked.png'
+import unliked from './unliked.png'
+import { setLike } from '../../../redux/slices/likesSlice'
 
 export function ModalProduct({
   active, setActive, product,
@@ -19,9 +22,11 @@ export function ModalProduct({
   const [showedComments, setShowedComments] = useState(false)
   console.log(product)
   const cart = useSelector((store) => store.cart.value)
+  const likes = useSelector((store) => store.liked.value)
   const id = product._id
   const idsFromCArt = cart.map((e) => e.id)
   const inCart = idsFromCArt.includes(id)
+  const inLikes = likes.includes(id)
   console.log(idsFromCArt, id)
   const activeModalClass = `${style.modal} ${style.active}`
 
@@ -42,11 +47,16 @@ export function ModalProduct({
     }
   }
 
+  const likeHandler = (e) => {
+    e.stopPropagation()
+    dispatch(setLike(id))
+  }
+
   return (
     <div className={active ? activeModalClass : style.modal} onClick={closeHandler}>
       <div className={style.modal__content} onClick={(e) => e.stopPropagation()}>
         {product != null ? (
-          <div className="d-flex flex-column align-items-center">
+          <div className="d-flex flex-column align-items-center position-relative">
             <div className="w-75 ">
               <img className="w-100 h-100" src={product.pictures} alt="" />
             </div>
@@ -96,9 +106,12 @@ export function ModalProduct({
                 <i className="fa-solid fa-comment me-2" />
                 {product.reviews.length}
               </button>
-
+              <button type="button" onClick={likeHandler} className={style.like_button}>
+                <img src={inLikes ? liked : unliked} alt="" className={style.like_img} />
+              </button>
             </div>
             {showedComments ? <Comments productId={id} /> : ''}
+
           </div>
         ) : 0}
       </div>

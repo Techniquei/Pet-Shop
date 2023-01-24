@@ -15,7 +15,7 @@ const likeSlice = createSlice({
         const id = action.payload
         if (state.value.includes(id)) {
           state.value = state.value.filter((e) => e !== action.payload)
-        } else {
+        } else if (id !== null) {
           state.value = [...state.value, id]
         }
       },

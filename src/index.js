@@ -15,6 +15,7 @@ import { Profile } from './components/Profile/Profile'
 import { Cart } from './components/Cart/Cart'
 import { store } from './redux/store'
 import { Liked } from './components/Liked/Liked'
+import { NewProduct } from './components/NewProduct/NewProduct'
 
 const queryClient = new QueryClient()
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: 'liked',
         element: <Liked />,
+      },
+      {
+        path: 'newProduct',
+        element: <NewProduct />,
       },
     ],
   },

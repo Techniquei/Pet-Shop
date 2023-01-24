@@ -1,0 +1,40 @@
+.liked_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 1500px;
+}
+
+.card{
+    width: 307px;
+    min-width: 300px;
+    background-color: white;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap:10px;
+    border-radius: 20px;
+    padding: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.box {
+    overflow:hidden;
+    height:180px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    padding: 15px 45px ;
+    
+}
+
+.img {
+    object-fit:contain;
+    width: 100%;
+    
+ }
