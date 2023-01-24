@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useDispatch } from 'react-redux'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
+import { useNavigate } from 'react-router-dom'
 import liked from './liked.png'
 import unliked from './unliked.png'
 import styles from './productItem.module.scss'
@@ -9,8 +10,9 @@ import { addToCart } from '../../../redux/slices/cartSlice'
 import { setLike } from '../../../redux/slices/likesSlice'
 
 export function ProductItem({
-  inCart, like, openModal, product,
+  inCart, like, product,
 }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const addHandler = (e) => {
     e.stopPropagation()
@@ -27,7 +29,7 @@ export function ProductItem({
       className={styles.card}
       onClick={() => {
         disablePageScroll()
-        openModal(product.id)
+        navigate(product.id)
       }}
     >
       <div className="d-flex flex-column align-items-center">

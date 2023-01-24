@@ -26,6 +26,13 @@ export function Liked() {
     }
     ,
   })
+  if (liked.length === 0) {
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        <h1 className="mt-3">Избранные товары отсутствуют</h1>
+      </div>
+    )
+  }
   if (isLoading) return <Loader />
   console.log(data)
   return (

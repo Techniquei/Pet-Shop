@@ -4,30 +4,70 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { enablePageScroll } from 'scroll-lock'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
 import style from './modalProduct.module.scss'
 import { Comments } from './Comments/Comments'
 import { addToCart, removeFromCart } from '../../../redux/slices/cartSlice'
 import liked from './liked.png'
 import unliked from './unliked.png'
 import { setLike } from '../../../redux/slices/likesSlice'
+import { getToken } from '../../getToken'
+import { Loader } from '../../Loader/Loader'
+import { getProfile, PROFILE_QUERY_KEY } from '../../Profile/Profile'
 
-export function ModalProduct({
-  active, setActive, product,
-}) {
-  if (product === null) {
-    return <> </>
-  }
+async function sendLike(id, status) {
+  const res = await fetch(`https://api.react-learning.ru/products/likes/${id}`, {
+    method: status ? 'DELETE' : 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  })
+  const result = await res.json()
+  return result
+}
+
+export function ModalProduct() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
+
+  const { id } = useParams()
+
+  const { data: product, isFetching } = useQuery({
+    queryKey: ['liked'],
+    queryFn: () => fetch(`https://api.react-learning.ru/products/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }).then((res) => res.json()),
+    onSuccess: () => console.log(product),
+  })
+
+  const { data: profile } = useQuery({
+    queryKey: [PROFILE_QUERY_KEY],
+    queryFn: getProfile,
+  })
+
+  const { mutateAsync: mutateLike } = useMutation({
+    mutationKey: ['liked'],
+    mutationFn: () => sendLike(id, product.likes.includes(profile._id)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['liked'] })
+    },
+  })
+
   const [showedComments, setShowedComments] = useState(false)
-  console.log(product)
   const cart = useSelector((store) => store.cart.value)
   const likes = useSelector((store) => store.liked.value)
-  const id = product._id
+
+  console.log('модалка есть', id)
   const idsFromCArt = cart.map((e) => e.id)
   const inCart = idsFromCArt.includes(id)
   const inLikes = likes.includes(id)
-  console.log(idsFromCArt, id)
   const activeModalClass = `${style.modal} ${style.active}`
 
   const commentsHandler = () => {
@@ -35,8 +75,7 @@ export function ModalProduct({
   }
 
   const closeHandler = () => {
-    setActive({ active: false, id: 0 })
-    setShowedComments(false)
+    navigate(-1)
     enablePageScroll()
   }
   const addHandler = () => {
@@ -47,15 +86,18 @@ export function ModalProduct({
     }
   }
 
-  const likeHandler = (e) => {
+  const favoriteHandler = (e) => {
     e.stopPropagation()
     dispatch(setLike(id))
   }
 
   return (
-    <div className={active ? activeModalClass : style.modal} onClick={closeHandler}>
+    <div
+      className={activeModalClass}
+      onClick={closeHandler}
+    >
       <div className={style.modal__content} onClick={(e) => e.stopPropagation()}>
-        {product != null ? (
+        {(product !== undefined && !isFetching) ? (
           <div className="d-flex flex-column align-items-center position-relative">
             <div className="w-75 ">
               <img className="w-100 h-100" src={product.pictures} alt="" />
@@ -91,8 +133,8 @@ export function ModalProduct({
             </p>
             <div className="fs-5" dangerouslySetInnerHTML={{ __html: product.description }} />
             <div className="d-flex justify-content-between w-100 mt-3">
-              <button type="button" className={style.like}>
-                <i className="fa-solid fa-thumbs-up me-2" />
+              <button type="button" className={style.like} onClick={mutateLike}>
+                <i className={`${product.likes.includes(profile._id) ? 'fa-solid' : 'fa-regular'} fa-thumbs-up me-2`} />
                 {product.likes.length}
               </button>
               <button
@@ -106,14 +148,14 @@ export function ModalProduct({
                 <i className="fa-solid fa-comment me-2" />
                 {product.reviews.length}
               </button>
-              <button type="button" onClick={likeHandler} className={style.like_button}>
+              <button type="button" onClick={favoriteHandler} className={style.like_button}>
                 <img src={inLikes ? liked : unliked} alt="" className={style.like_img} />
               </button>
             </div>
             {showedComments ? <Comments productId={id} /> : ''}
 
           </div>
-        ) : 0}
+        ) : <Loader />}
       </div>
     </div>
   )

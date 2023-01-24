@@ -16,6 +16,7 @@ import { Cart } from './components/Cart/Cart'
 import { store } from './redux/store'
 import { Liked } from './components/Liked/Liked'
 import { NewProduct } from './components/NewProduct/NewProduct'
+import { ModalProduct } from './components/Catalog/ModalProduct/ModalProduct'
 
 const queryClient = new QueryClient()
 
@@ -35,6 +36,12 @@ const router = createBrowserRouter([
       {
         path: 'catalog',
         element: <Catalog />,
+        children: [
+          {
+            path: ':id',
+            element: <ModalProduct />,
+          },
+        ],
       },
       {
         path: 'my_profile',
