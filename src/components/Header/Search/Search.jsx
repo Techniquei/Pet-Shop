@@ -8,7 +8,6 @@ export function Search() {
   const [searchLine, setSearchLine] = useState('')
 
   const useDebounce = useMemo(() => debounce((value) => {
-    console.log(value)
     dispatch(setSearch(value))
   }, 500), [])
 

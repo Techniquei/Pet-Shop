@@ -44,7 +44,6 @@ export function ModalProduct() {
         Authorization: `Bearer ${getToken()}`,
       },
     }).then((res) => res.json()),
-    onSuccess: () => console.log(product),
   })
 
   const { data: profile } = useQuery({
@@ -64,7 +63,6 @@ export function ModalProduct() {
   const cart = useSelector((store) => store.cart.value)
   const likes = useSelector((store) => store.liked.value)
 
-  console.log('модалка есть', id)
   const idsFromCArt = cart.map((e) => e.id)
   const inCart = idsFromCArt.includes(id)
   const inLikes = likes.includes(id)

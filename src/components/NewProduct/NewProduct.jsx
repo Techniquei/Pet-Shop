@@ -37,9 +37,6 @@ export function NewProduct() {
   const { data, mutateAsync, isSuccess } = useMutation({
     mutationKey: ['products'],
     mutationFn: addProductMutate,
-    onSuccess: () => {
-      console.log(data)
-    },
   })
 
   return (

@@ -34,7 +34,6 @@ export function Liked() {
     )
   }
   if (isLoading) return <Loader />
-  console.log(data)
   return (
     <div className="d-flex justify-content-center align-items-center">
       <div className={s.liked_wrapper}>

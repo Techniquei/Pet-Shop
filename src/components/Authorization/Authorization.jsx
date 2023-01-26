@@ -27,7 +27,6 @@ export function Authorization() {
       if (data) {
         keys = Object.keys(data)
         if (keys.includes('token')) {
-          console.log(data.token)
           dispatch(setToken(data.token))
           navigate('/catalog')
         }

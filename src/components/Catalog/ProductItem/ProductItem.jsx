@@ -21,7 +21,6 @@ export function ProductItem({
   const likeHandler = (e) => {
     e.stopPropagation()
     dispatch(setLike(product.id))
-    console.log(product.id)
   }
 
   return (

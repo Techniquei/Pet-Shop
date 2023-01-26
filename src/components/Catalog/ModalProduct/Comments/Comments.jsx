@@ -15,7 +15,6 @@ async function getReviewsById(id, token) {
     },
   })
   const reviews = await reviewsFetch.json()
-  console.log(reviews)
   return reviews
 }
 
@@ -40,7 +39,6 @@ export function Comments({ productId }) {
   const [ratingState, setRatingState] = useState(5)
   const inputHandler = (event) => {
     setInputState(event.target.value)
-    console.log(inputState)
   }
 
   const token = getToken()
@@ -57,21 +55,12 @@ export function Comments({ productId }) {
     mutationKey: ['reviews'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reviews'] })
-      console.log('send review')
     },
   })
 
   if (isFetching) {
     return <Loader />
   }
-
-  // if (data.length === 0) {
-  //   return (
-  //     <div className="d-flex justify-content-center fs-4">
-  //       Отзывов нет
-  //     </div>
-  //   )
-  // }
 
   return (
     <>

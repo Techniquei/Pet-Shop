@@ -29,18 +29,14 @@ export function Cart() {
   })
 
   if (isLoading) return <Loader />
-  console.log(data)
   const dat = cart.map((product) => {
     const { id } = product
     const productFromQuery = data.find((e) => e._id === id)
     return { ...productFromQuery, count: product.count, checked: product.checked }
   })
-  console.log(dat, data, cart)
   const totalSumDiscountCount = dat.reduce(
-    // (acc, e) => [acc[0] + (e.count * e.price), acc[1] + e.count * e.discount, acc[2] + e.count],
     (acc, e) => {
       if (e.checked) {
-        // setTimeout(refetch)
         return [acc[0] + (e.count * e.price), acc[1] + e.count * e.discount, acc[2] + e.count]
       } return [acc[0], acc[1], acc[2]]
     },

@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import _ from 'lodash'
 
 const initialState = {
-  // value: JSON.parse(localStorage.getItem('store')).cart.value,
   value: localStorage.getItem('store') !== null ? JSON.parse(localStorage.getItem('store')).cart.value : [],
 }
 

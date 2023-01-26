@@ -12,7 +12,6 @@ const listenerMiddleware = createListenerMiddleware()
 listenerMiddleware.startListening({
   matcher: isAnyOf(addToCart, removeFromCart, incrementInCart, decrementInCart, selectInCart, setLike, setToken),
   effect: (action, listenerApi) => {
-    console.log('middleware')
     const state = listenerApi.getState()
     localStorage.setItem('store', JSON.stringify(state))
   },
