@@ -17,6 +17,7 @@ import { store } from './redux/store'
 import { Liked } from './components/Liked/Liked'
 import { NewProduct } from './components/NewProduct/NewProduct'
 import { ModalProduct } from './components/Catalog/ModalProduct/ModalProduct'
+import { ChangeProduct } from './components/ChangeProduct/ChangeProduct'
 
 const queryClient = new QueryClient()
 
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: 'newProduct',
         element: <NewProduct />,
+      },
+      {
+        path: 'editProduct',
+        element: <ChangeProduct />,
       },
     ],
   },

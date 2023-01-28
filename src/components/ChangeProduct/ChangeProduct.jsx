@@ -1,26 +1,32 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { useMutation } from '@tanstack/react-query'
-import { Formik, Form, Field } from 'formik'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Field, Form, Formik } from 'formik'
+import { useSearchParams } from 'react-router-dom'
+import { enablePageScroll } from 'scroll-lock'
 import * as Yup from 'yup'
 import ru from 'yup-locale-ru'
 import { getToken } from '../getToken'
-
+import { Loader } from '../Loader/Loader'
 import s from './newProduct.module.scss'
 
-async function addProductMutate(values) {
-  const res = await fetch('https://api.react-learning.ru/products', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`,
-    },
-    body: JSON.stringify(values),
-  })
-  const result = await res.json()
-  return result
-}
+export function ChangeProduct() {
+  enablePageScroll()
+  const queryClient = useQueryClient()
+  const [searchParams] = useSearchParams()
+  const productId = searchParams.get('productId')
 
-export function NewProduct() {
+  const { data: product, isLoading } = useQuery({
+    queryKey: ['product'],
+    queryFn: () => fetch(`https://api.react-learning.ru/products/${productId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }).then((res) => res.json()).catch((e) => console
+      .log(e)),
+  })
+
   const yupSchema = Yup.object().shape({
     available: Yup.boolean().default(true),
     pictures: Yup.string().url(),
@@ -33,16 +39,38 @@ export function NewProduct() {
   })
   Yup.setLocale(ru)
 
-  const { data, mutateAsync, isSuccess } = useMutation({
-    mutationKey: ['products'],
-    mutationFn: addProductMutate,
+  async function editProductMutate(values) {
+    const res = await fetch(`https://api.react-learning.ru/products/${product._id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`,
+      },
+      body: JSON.stringify(values),
+    })
+    const result = await res.json()
+    return result
+  }
+
+  const { mutateAsync, isSuccess } = useMutation({
+    queryKey: ['product'],
+    mutationFn: editProductMutate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['product'] })
+    },
   })
+
+  if (!product) {
+    return <Loader />
+  }
 
   return (
     <div className={s.container}>
       <div className={s.content}>
+        <h1>Редактирование товара</h1>
+        <img className="w-50 m-3" src={product.pictures} alt="" />
         <Formik
-          initialValues={{ available: true }}
+          initialValues={product}
           validationSchema={yupSchema}
           onSubmit={mutateAsync}
         >
@@ -139,7 +167,7 @@ export function NewProduct() {
                     г.
                   </label>
                 </div>
-                <button className="btn btn-success btn-lg" type="submit" disabled={!(dirty && isValid)}>Добавить товар</button>
+                <button className="btn btn-success btn-lg" type="submit" disabled={!(dirty && isValid)}>Сохранить изменения</button>
                 {isSuccess ? <h2 className="text-success">Успешно</h2> : ''}
               </div>
 

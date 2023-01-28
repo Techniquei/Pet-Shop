@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useDispatch } from 'react-redux'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import liked from './liked.png'
 import unliked from './unliked.png'
 import styles from './productItem.module.scss'
@@ -14,6 +14,10 @@ export function ProductItem({
 }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const sort = searchParams.get('sort') || ''
+  const sortType = searchParams.get('sortType') || ''
+
   const addHandler = (e) => {
     e.stopPropagation()
     dispatch(addToCart(product.id))
@@ -28,7 +32,7 @@ export function ProductItem({
       className={styles.card}
       onClick={() => {
         disablePageScroll()
-        navigate(product.id)
+        navigate(`${product.id}?sortType=${sortType}&sort=${sort}`)
       }}
     >
       <div className="d-flex flex-column align-items-center">

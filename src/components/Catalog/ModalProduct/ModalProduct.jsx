@@ -89,13 +89,17 @@ export function ModalProduct() {
     dispatch(setLike(id))
   }
 
+  const editProductHandler = () => {
+    navigate(`/editProduct?productId=${product._id}`)
+  }
+
   return (
     <div
       className={activeModalClass}
       onClick={closeHandler}
     >
       <div className={style.modal__content} onClick={(e) => e.stopPropagation()}>
-        {(product !== undefined && !isFetching) ? (
+        {(!!product && !!profile) ? (
           <div className="d-flex flex-column align-items-center position-relative">
             <div className="w-75 ">
               <img className="w-100 h-100" src={product.pictures} alt="" />
@@ -130,6 +134,7 @@ export function ModalProduct() {
               {product.wight}
             </p>
             <div className="fs-5" dangerouslySetInnerHTML={{ __html: product.description }} />
+            {product.author._id === profile._id ? <button type="button" className="btn btn-primary" onClick={editProductHandler}>Редактировать</button> : ''}
             <div className="d-flex justify-content-between w-100 mt-3">
               <button type="button" className={style.like} onClick={mutateLike}>
                 <i className={`${product.likes.includes(profile._id) ? 'fa-solid' : 'fa-regular'} fa-thumbs-up me-2`} />
