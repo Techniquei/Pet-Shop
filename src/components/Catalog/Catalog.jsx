@@ -33,8 +33,8 @@ export function Catalog() {
   if (token == null) {
     navigate('/')
   }
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: [search, 'products'],
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', search],
     queryFn: getAllProducts,
   })
 
@@ -88,14 +88,14 @@ export function Catalog() {
         <label className="input-group-text">
           Cортировка
         </label>
-        <select className="form-select" onChange={sortTypeHandler}>
+        <select className="form-select" onChange={sortTypeHandler} defaultValue={searchParams.get('sortType')}>
           <option value="price">по цене</option>
           <option value="sale">по акции</option>
-          <option selected value="date">по дате</option>
+          <option value="date">по дате</option>
         </select>
-        <select className={`form-select ${style.width30}`} onChange={sortHandler}>
+        <select className={`form-select ${style.width30}`} onChange={sortHandler} defaultValue={searchParams.get('sort')}>
           <option value="increase">по убыванию</option>
-          <option selected value="decrease">по возрастанию</option>
+          <option value="decrease">по возрастанию</option>
         </select>
       </div>
 
@@ -118,7 +118,7 @@ export function Catalog() {
           ))
           : console.log(sortedData)}
       </div>
-      <Outlet context={refetch} />
+      <Outlet />
       <button type="button" className={style.add_product} onClick={() => navigate('/newProduct')}>
         <i className="fa-solid fa-circle-plus" />
       </button>

@@ -45,7 +45,6 @@ export function ModalProduct() {
   const dispatch = useDispatch()
   const { id } = useParams()
   const queryClient = useQueryClient()
-  const refetch = useOutletContext()
   const { data: product, isFetching } = useQuery({
     queryKey: ['liked'],
     queryFn: () => fetch(`https://api.react-learning.ru/products/${id}`, {
@@ -108,10 +107,11 @@ export function ModalProduct() {
     mutationKey: ['products'],
     mutationFn: () => {
       deleteProduct(id)
-      closeHandler()
     },
     onSuccess: () => {
-      refetch()
+      closeHandler()
+      dispatch(removeFromCart(id))
+      setTimeout(() => queryClient.invalidateQueries({ queryKey: ['products'] }), 100)
     },
   })
 
