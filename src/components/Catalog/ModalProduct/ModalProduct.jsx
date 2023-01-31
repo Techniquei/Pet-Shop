@@ -155,7 +155,7 @@ export function ModalProduct() {
                 <img src={inLikes ? liked : unliked} alt="" className={style.like_img} />
               </button>
             </div>
-            {showedComments ? <Comments productId={id} /> : ''}
+            {showedComments ? <Comments productId={id} myId={profile._id} /> : ''}
 
           </div>
         ) : <Loader />}

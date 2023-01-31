@@ -34,7 +34,19 @@ async function sendReviewMutate(text, rating, token, productId) {
   return result
 }
 
-export function Comments({ productId }) {
+async function deleteReviewMutate(token, productId, reviewId) {
+  const res = await fetch(`https://api.react-learning.ru/products/review/${productId}/${reviewId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  const result = await res.json()
+  return result
+}
+
+export function Comments({ productId, myId }) {
   const [inputState, setInputState] = useState('')
   const [ratingState, setRatingState] = useState(5)
   const inputHandler = (event) => {
@@ -50,7 +62,7 @@ export function Comments({ productId }) {
     queryFn: () => getReviewsById(productId, token),
   })
 
-  const mutation = useMutation({
+  const mutationAdd = useMutation({
     mutationFn: () => sendReviewMutate(inputState, ratingState, token, productId),
     mutationKey: ['reviews'],
     onSuccess: () => {
@@ -58,7 +70,15 @@ export function Comments({ productId }) {
     },
   })
 
-  if (isFetching) {
+  const mutationDelete = useMutation({
+    mutationFn: (reviewId) => deleteReviewMutate(token, productId, reviewId),
+    mutationKey: ['reviews'],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reviews'] })
+    },
+  })
+
+  if (isFetching || mutationAdd.isLoading || mutationDelete.isLoading) {
     return <Loader />
   }
 
@@ -83,7 +103,7 @@ export function Comments({ productId }) {
                 </div>
               </div>
 
-              <button className="btn btn-primary" type="button" onClick={mutation.mutate}>Оставить отзыв</button>
+              <button className="btn btn-primary" type="button" onClick={mutationAdd.mutateAsync}>Оставить отзыв</button>
             </div>
           )
 
@@ -110,6 +130,7 @@ export function Comments({ productId }) {
                     </div>
                     <div>{review.text}</div>
                     <div className="d-flex justify-content-end fw-lighter fs-6 fst-italic">
+                      {review.author._id === myId ? <button type="button" className="btn btn-danger btn-sm me-3" onClick={() => mutationDelete.mutateAsync(review._id)}>удалить</button> : ''}
                       {(new Date(Date.parse(review.created_at))).toLocaleDateString('en-US')}
                     </div>
 
