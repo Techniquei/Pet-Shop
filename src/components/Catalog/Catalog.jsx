@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import style from './catalog.module.scss'
 import { ProductItem } from './ProductItem/ProductItem'
@@ -34,7 +34,7 @@ export function Catalog() {
   if (token == null) {
     navigate('/')
   }
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: [search, 'products'],
     queryFn: getAllProducts,
   })
@@ -119,7 +119,7 @@ export function Catalog() {
           ))
           : console.log(sortedData)}
       </div>
-      <Outlet />
+      <Outlet context={refetch} />
       <button type="button" className={style.add_product} onClick={() => navigate('/newProduct')}>
         <i className="fa-solid fa-circle-plus" />
       </button>

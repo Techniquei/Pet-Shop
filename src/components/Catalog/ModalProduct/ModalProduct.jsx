@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { enablePageScroll } from 'scroll-lock'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import style from './modalProduct.module.scss'
 import { Comments } from './Comments/Comments'
 import { addToCart, removeFromCart } from '../../../redux/slices/cartSlice'
@@ -28,13 +28,24 @@ async function sendLike(id, status) {
   return result
 }
 
+async function deleteProduct(productId) {
+  const res = await fetch(`https://api.react-learning.ru/products/${productId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+  })
+  const result = await res.json()
+  return result
+}
+
 export function ModalProduct() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const queryClient = useQueryClient()
-
   const { id } = useParams()
-
+  const queryClient = useQueryClient()
+  const refetch = useOutletContext()
   const { data: product, isFetching } = useQuery({
     queryKey: ['liked'],
     queryFn: () => fetch(`https://api.react-learning.ru/products/${id}`, {
@@ -93,13 +104,24 @@ export function ModalProduct() {
     navigate(`/editProduct?productId=${product._id}`)
   }
 
+  const { mutateAsync: mutateDelete } = useMutation({
+    mutationKey: ['products'],
+    mutationFn: () => {
+      deleteProduct(id)
+      closeHandler()
+    },
+    onSuccess: () => {
+      refetch()
+    },
+  })
+
   return (
     <div
       className={activeModalClass}
       onClick={closeHandler}
     >
       <div className={style.modal__content} onClick={(e) => e.stopPropagation()}>
-        {(!!product && !!profile) ? (
+        {(!!product && !!profile && !isFetching) ? (
           <div className="d-flex flex-column align-items-center position-relative">
             <div className="w-75 ">
               <img className="w-100 h-100" src={product.pictures} alt="" />
@@ -134,7 +156,12 @@ export function ModalProduct() {
               {product.wight}
             </p>
             <div className="fs-5" dangerouslySetInnerHTML={{ __html: product.description }} />
-            {product.author._id === profile._id ? <button type="button" className="btn btn-primary" onClick={editProductHandler}>Редактировать</button> : ''}
+            {product.author._id === profile._id ? (
+              <div className="d-flex gap-3">
+                <button type="button" className="btn btn-primary" onClick={editProductHandler}>Редактировать</button>
+                <button type="button" className="btn btn-danger" onClick={mutateDelete}>Удалить товар</button>
+              </div>
+            ) : ''}
             <div className="d-flex justify-content-between w-100 mt-3">
               <button type="button" className={style.like} onClick={mutateLike}>
                 <i className={`${product.likes.includes(profile._id) ? 'fa-solid' : 'fa-regular'} fa-thumbs-up me-2`} />
