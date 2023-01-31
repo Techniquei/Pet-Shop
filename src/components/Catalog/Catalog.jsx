@@ -13,7 +13,6 @@ export const PRODUCTS_QUERY_KEY = 'PRODUCTS_QUERY_KEY'
 export function Catalog() {
   const navigate = useNavigate()
   const token = getToken()
-
   const [searchParams, setSearchParams] = useSearchParams({
     sort: 'decrease',
     sortType: 'date',
